@@ -15,17 +15,20 @@ async function home(el, ctx) {
     <a class="gear" href="#/settings">⚙︎</a></h1>
     <div id="tree"></div></div>`;
   const box = el.querySelector('#tree');
-  box.innerHTML = tree.map((c, ci) => `
+  box.innerHTML = tree.map(m => `
+    <div class="mod-head">${m.module}<span class="tag">${m.count} 题</span></div>
+    ${m.chapters.map(c => `
     <div class="card">
-      <div class="chap" data-ci="${ci}"><b>${c.chapter}</b><span class="tag">${c.count}</span></div>
+      <div class="chap"><b>${c.chapter}</b><span class="tag">${c.count}</span></div>
       <div class="secs" hidden>${c.sections.map(s => `
         <div class="sec-row">
           <span class="sec-name">${s.section}</span>
           ${s.tiers.map(t => `<button class="ghost small" data-scope='${JSON.stringify(
-            { chapter: c.chapter, section: s.section, tier: t.tier }).replace(/'/g, '&#39;')}'>
+            { module: m.module, chapter: c.chapter, section: s.section, tier: t.tier })
+            .replace(/'/g, '&#39;')}'>
             ${t.tier} ${t.count}</button>`).join('')}
         </div>`).join('')}</div>
-    </div>`).join('');
+    </div>`).join('')}`).join('');
 
   box.querySelectorAll('.chap').forEach(h => h.addEventListener('click', () => {
     const secs = h.nextElementSibling; secs.hidden = !secs.hidden;

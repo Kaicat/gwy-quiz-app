@@ -33,12 +33,17 @@ export function filterQuestions(all, s = {}) {
     && (!s.tier || q.tier === s.tier));
 }
 
+const MODULE_ORDER = ['政治理论与常识判断', '判断推理', '数量关系', '言语理解', '资料分析'];
+
 export function groupTree(all) {
   const singles = all.filter(q => q.type === 'single');
-  const chapters = [];
+  const modules = [];
   for (const q of singles) {
-    let c = chapters.find(x => x.chapter === q.chapter);
-    if (!c) chapters.push(c = { chapter: q.chapter, count: 0, sections: [] });
+    let m = modules.find(x => x.module === q.module);
+    if (!m) modules.push(m = { module: q.module, count: 0, chapters: [] });
+    m.count++;
+    let c = m.chapters.find(x => x.chapter === q.chapter);
+    if (!c) m.chapters.push(c = { chapter: q.chapter, count: 0, sections: [] });
     c.count++;
     let s = c.sections.find(x => x.section === q.section);
     if (!s) c.sections.push(s = { section: q.section, count: 0, tiers: [] });
@@ -47,5 +52,9 @@ export function groupTree(all) {
     if (!t) s.tiers.push(t = { tier: q.tier, count: 0 });
     t.count++;
   }
-  return chapters;
+  modules.sort((a, b) => {
+    const ia = MODULE_ORDER.indexOf(a.module), ib = MODULE_ORDER.indexOf(b.module);
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+  });
+  return modules;
 }
