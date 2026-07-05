@@ -19,6 +19,7 @@ export function mountQuizPlayer(el, { questions, startIndex = 0, mode, store, on
           <span class="quiz-pos">${i + 1} / ${questions.length}</span>
           <button class="star ${fav ? 'on' : ''}" id="qp-fav">${fav ? '★' : '☆'}</button>
         </div>
+        ${(q.images || []).map(s => `<img class="mat" src="${s}" loading="lazy">`).join('')}
         <div class="stem">${q.source ? `<span class="tag">${q.source}</span>` : ''}${q.stem}</div>
         <div class="options">${q.options.map((o, n) => {
           const L = LETTERS[n];

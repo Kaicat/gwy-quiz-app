@@ -55,3 +55,4 @@ button.small { padding:6px 10px; font-size:13px; }
 .player-card iframe { width:100%; aspect-ratio:16/9; border:0; border-radius:10px; }
 #v-link, #v-title { flex:1; font:inherit; padding:8px; border:1px solid var(--line); border-radius:10px; }
 .mod-head { font-size:15px; font-weight:700; margin:18px 0 10px; display:flex; align-items:center; gap:8px; }
+.quiz img.mat { width:100%; border:1px solid var(--line); border-radius:8px; margin-bottom:10px; }
