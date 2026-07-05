@@ -15,10 +15,7 @@ import { settingsView } from './views/settings.js';
     if (loaded) toast(`题库已更新:${count} 题`);
     const seed = await fetch('data/videos.json').then(r => r.json()).catch(() => null);
     if (seed && (await store.kv.get('meta', 'videoSeedVersion')) !== seed.seedVersion) {
-      const have = new Set((await store.listVideos()).map(v => v.id));
-      for (const v of seed.videos) {
-        if (!have.has(`${v.bvid}-${v.page}`)) await store.addVideo(v);
-      }
+      for (const v of seed.videos) await store.addVideo(v);   // 同 id 覆盖(更新标题),用户自加的不受影响
       await store.kv.put('meta', 'videoSeedVersion', seed.seedVersion);
     }
     initRouter({ practice: practiceView, review: reviewView,
