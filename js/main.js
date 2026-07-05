@@ -13,9 +13,13 @@ import { settingsView } from './views/settings.js';
     const bank = await fetch('data/questions.json').then(r => r.json());
     const { loaded, count } = await store.loadBank(bank);
     if (loaded) toast(`题库已更新:${count} 题`);
-    if (!(await store.listVideos()).length) {
-      const seed = await fetch('data/videos.json').then(r => r.json()).catch(() => ({ videos: [] }));
-      for (const v of seed.videos) await store.addVideo(v);
+    const seed = await fetch('data/videos.json').then(r => r.json()).catch(() => null);
+    if (seed && (await store.kv.get('meta', 'videoSeedVersion')) !== seed.seedVersion) {
+      const have = new Set((await store.listVideos()).map(v => v.id));
+      for (const v of seed.videos) {
+        if (!have.has(`${v.bvid}-${v.page}`)) await store.addVideo(v);
+      }
+      await store.kv.put('meta', 'videoSeedVersion', seed.seedVersion);
     }
     initRouter({ practice: practiceView, review: reviewView,
       essay: essayView, videos: videosView, settings: settingsView }, { store });

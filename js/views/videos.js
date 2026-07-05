@@ -4,7 +4,8 @@ import { toast } from '../router.js';
 export function videosView(el, ctx) { render(el, ctx); }
 
 async function render(el, ctx, playingId) {
-  const vids = await ctx.store.listVideos();
+  const vids = (await ctx.store.listVideos())
+    .sort((a, b) => a.bvid.localeCompare(b.bvid) || a.page - b.page);
   const playing = vids.find(v => v.id === playingId);
   el.innerHTML = `<div class="page"><h1>视频课程</h1>
     ${playing ? playerHtml(playing) : ''}
