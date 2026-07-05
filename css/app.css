@@ -10,7 +10,8 @@ body { font:16px/1.65 -apple-system,"PingFang SC",sans-serif; background:var(--b
   color:var(--sub); text-decoration:none; }
 #tabbar a.active { color:var(--brand); font-weight:600; }
 .page h1 { font-size:22px; margin:8px 0 16px; }
-.page h1 .gear { float:right; text-decoration:none; color:var(--sub); font-size:18px; }
+.page h1 .gear { float:right; text-decoration:none; color:var(--sub); font-size:26px;
+  padding:10px 14px; margin:-10px -14px 0 0; }
 .card { background:var(--card); border-radius:14px; padding:16px; margin-bottom:12px;
   border:1px solid var(--line); }
 .loading { text-align:center; color:var(--sub); padding:48px 0; }
