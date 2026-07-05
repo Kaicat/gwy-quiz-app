@@ -20,6 +20,9 @@ export function mountQuizPlayer(el, { questions, startIndex = 0, mode, store, on
           <button class="star ${fav ? 'on' : ''}" id="qp-fav">${fav ? '★' : '☆'}</button>
         </div>
         ${(q.images || []).map(s => `<img class="mat" src="${s}" loading="lazy">`).join('')}
+        ${q.passage ? `<details class="passage" ${q.passageOpen ? 'open' : ''}>
+          <summary>阅读材料${q.passageOpen ? '' : '(点击展开)'}</summary>
+          <p>${q.passage.replace(/\n/g, '</p><p>')}</p></details>` : ''}
         <div class="stem">${q.source ? `<span class="tag">${q.source}</span>` : ''}${q.stem}</div>
         <div class="options">${q.options.map((o, n) => {
           const L = LETTERS[n];
