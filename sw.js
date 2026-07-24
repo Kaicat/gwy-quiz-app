@@ -1,4 +1,4 @@
-const CACHE = 'gwy-quiz-v17'; // 改静态资源必须 bump
+const CACHE = 'gwy-quiz-v18'; // 改静态资源必须 bump
 const ASSETS = [
   './', './index.html', './manifest.webmanifest',
   './css/app.css',

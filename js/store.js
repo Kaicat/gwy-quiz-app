@@ -10,14 +10,18 @@ export class Store {
       return { loaded: false, count };
     }
     await this.kv.clear('questions');
-    await this.kv.bulkPut('questions', bank.questions.map(q => [q.id, q]));
+    // ord = 题库文件序:IndexedDB getAll 按主键序返回,展示按 ord 还原书本章节顺序
+    await this.kv.bulkPut('questions', bank.questions.map((q, i) => [q.id, { ...q, ord: i }]));
     await this.kv.put('meta', 'bankVersion', bank.version);
     this._cache = null;
     return { loaded: true, count: bank.questions.length };
   }
 
   async allQuestions() {
-    if (!this._cache) this._cache = await this.kv.getAll('questions');
+    if (!this._cache) {
+      this._cache = (await this.kv.getAll('questions'))
+        .sort((a, b) => (a.ord ?? 1e9) - (b.ord ?? 1e9));
+    }
     return this._cache;
   }
   async getQuestion(id) { return this.kv.get('questions', id); }
